@@ -5,8 +5,18 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Home')
+        title: Text('Cotizaciones')
       ),
+      body: Container(),
+      floatingActionButton: _newSolicitude(context),
+    );
+  }
+
+  _newSolicitude(BuildContext context) {
+    return FloatingActionButton(
+      child: Icon(Icons.add),
+      backgroundColor: Colors.red,
+      onPressed: () => Navigator.pushNamed(context, 'solicitude'),
     );
   }
 }

@@ -147,6 +147,7 @@ class LoginPage extends StatelessWidget {
               counterText: snapshot.data,
               errorText: snapshot.error
             ),
+            onChanged: bloc.changePassword,
           ),
         );
       },
@@ -171,13 +172,13 @@ class LoginPage extends StatelessWidget {
           elevation: 0.0,
           color: Colors.redAccent,
           textColor: Colors.white,
-          onPressed: snapshot.hasData ? () => _login(bloc) : null,
+          onPressed: snapshot.hasData ? () => _login(context, bloc) : null,
         );
       }
     );
   }
 
-  _login(LoginBloc bloc) {
-    bloc.email;
+  _login(BuildContext context, LoginBloc bloc) {
+    Navigator.pushReplacementNamed(context, 'home');
   }
 }
