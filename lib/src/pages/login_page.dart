@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:quote_acciona/src/providers/login_provider.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class LoginPage extends StatelessWidget {
   @override
@@ -48,15 +49,15 @@ class LoginPage extends StatelessWidget {
         Positioned( child: circle, bottom: -50.0, left: -20.0),
 
         Container(
-          padding: EdgeInsets.only(top: 80.0),
+          padding: EdgeInsets.only(top: 50.0),
           child: Column(
             children: <Widget>[
-              Icon(Icons.person_pin_circle, color: Colors.white, size: 80.0),
+              new SvgPicture.asset('assets/icons/acciona.svg', color: Colors.white, height: 120.0, width: 120.0),
               SizedBox(height: 10.0, width: double.infinity),
-              Text(
+              /*Text(
                 'Acciona', 
                 style: TextStyle(color: Colors.white, fontSize: 25.0)
-              )
+              )*/
             ],
           ),
         )
@@ -144,9 +145,10 @@ class LoginPage extends StatelessWidget {
             decoration: InputDecoration(
               icon: Icon(Icons.lock_outline, color: Colors.redAccent),
               labelText: 'Contraseña',
-              counterText: snapshot.data,
+              //counterText: snapshot.data,
               errorText: snapshot.error
             ),
+            onChanged: bloc.changePassword,
           ),
         );
       },
@@ -171,13 +173,16 @@ class LoginPage extends StatelessWidget {
           elevation: 0.0,
           color: Colors.redAccent,
           textColor: Colors.white,
-          onPressed: snapshot.hasData ? () => _login(bloc) : null,
+          onPressed: snapshot.hasData ? () => _login(bloc, context) : null,
         );
       }
     );
   }
 
-  _login(LoginBloc bloc) {
+  _login(LoginBloc bloc, BuildContext context) {
     bloc.email;
+    bloc.password;
+
+    Navigator.of(context).pushReplacementNamed('home');
   }
 }
