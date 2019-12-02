@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:quote_acciona/src/pages/home_page.dart';
 import 'package:quote_acciona/src/pages/login_page.dart';
-import 'package:quote_acciona/src/pages/solicitude_page.dart';
+import 'package:quote_acciona/src/pages/quote/list.dart';
+import 'package:quote_acciona/src/pages/quote/new.dart';
 import 'package:quote_acciona/src/providers/login_provider.dart';
  
 void main() => runApp(MyApp());
@@ -27,10 +28,12 @@ class MyApp extends StatelessWidget {
         routes: {
           'login': (BuildContext context) => LoginPage(),
           'home': (BuildContext context) => HomePage(),
-          'solicitude': (BuildContext context) => SolicitudePage(),
+          'quote.list': (BuildContext context) => ListPage(),
+          'quote.new': (BuildContext context) => NewPage(),
         },
         theme: ThemeData(
-          primaryColor: Colors.red
+          primaryColor: Colors.red,
+          accentColor: Colors.redAccent
         ),
       ),
     );

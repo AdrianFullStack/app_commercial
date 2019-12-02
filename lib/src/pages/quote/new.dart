@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class SolicitudePage extends StatefulWidget {
+class NewPage extends StatefulWidget {
   @override
-  _SolicitudePageState createState() => _SolicitudePageState();
+  _NewPageState createState() => _NewPageState();
 }
 
-class _SolicitudePageState extends State<SolicitudePage> {
+class _NewPageState extends State<NewPage> {
   final rowsQuantity = 1;
   int _currentStep = 0;
 
@@ -15,104 +16,18 @@ class _SolicitudePageState extends State<SolicitudePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Solicitud de Cotización'),
+        title: Text('Datos'),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.translate),
             onPressed: (){},
           ),
           IconButton(
-            icon: Icon(Icons.file_upload),
+            icon: Icon(FontAwesomeIcons.cloudUploadAlt),
             onPressed: (){},
           ),
         ],
       ),
-      //floatingActionButton: _buttonSave(context),
-      body: Container(
-        alignment: Alignment(0.0, 0.0),
-        child: Stepper(
-          type: StepperType.horizontal,
-          currentStep: _currentStep,
-          onStepTapped: (int step) => setState(() => _currentStep = step),
-          steps: <Step> [
-            Step(
-              title: Text(''),
-              content: Column(
-                mainAxisSize: MainAxisSize.max,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  _inputPayment(context),
-                  SizedBox(height: 15.0),
-                  _inputVia(context),
-                  SizedBox(height: 15.0),
-                  _inputService(context),
-                  SizedBox(height: 15.0),
-                  _inputType(context),
-                  SizedBox(height: 15.0),
-                  _inputIncoterm(context),
-                  SizedBox(height: 15.0),
-                  _inputValid(context),
-                ],
-              ),
-              isActive: _currentStep == 0 ? true : false
-            ),
-            Step(
-              title: Text(''),
-              content: Column(
-                mainAxisSize: MainAxisSize.max,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  _inputCient(context),
-                  _inputContact(context),
-                  _inputProduct(context),
-                  _inputOrigin(context),
-                  _inputDestiny(context),
-                ],
-              ),
-              isActive: _currentStep == 1 ? true : false
-            ),
-            Step(
-              title: Text(''),
-              content: SizedBox(
-                width: 100.0,
-                height: 100.0,
-              ),
-              isActive: _currentStep == 2 ? true : false
-            ),
-          ],
-        ),
-      )
-      
-      /*SingleChildScrollView(
-        child: Container(
-          padding: EdgeInsets.all(15.0),
-          child: Form(
-            child: Column(
-              children: <Widget>[
-                _inputCient(context),
-                _inputContact(context),
-                _inputProduct(context),
-                _inputOrigin(context),
-                _inputDestiny(context),
-
-                Expanded(
-                  child: ListView(
-                    children: <Widget>[
-                      ListTile(
-                        title: Text('kahchv'),
-                      )
-                    ],
-                  ),
-                )
-
-                
-                //SizedBox(height: 10.0),
-                //_buttonSave(context),
-              ],
-            ),
-          ),
-        ),
-      ),*/
     );
   }
 
