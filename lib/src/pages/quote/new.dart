@@ -7,6 +7,8 @@ class NewPage extends StatefulWidget {
 }
 
 class _NewPageState extends State<NewPage> {
+  bool isCharge = true;
+
   final rowsQuantity = 1;
   int _currentStep = 0;
 
@@ -16,7 +18,7 @@ class _NewPageState extends State<NewPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Datos'),
+        title: Text('Nueva Cotización'),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.translate),
@@ -26,8 +28,70 @@ class _NewPageState extends State<NewPage> {
             icon: Icon(FontAwesomeIcons.cloudUploadAlt),
             onPressed: (){},
           ),
-        ],
+        ]
       ),
+      body: Container(
+        alignment: Alignment(0.0, 0.0),
+        child: Stepper(
+          type: StepperType.horizontal,
+          currentStep: _currentStep,
+          //onStepTapped: (int step) => setState(() => _currentStep = step),
+          onStepCancel: () => setState(() => _currentStep > 0 ? _currentStep-- : _currentStep),
+          onStepContinue: () => setState(() => _currentStep < 2 ? _currentStep++ : _currentStep),
+          steps: <Step> [
+            Step(
+              title: Text(''),
+              content: Container(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height - 260.0,
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: <Widget>[
+                      _inputPayment(context),
+                      SizedBox(height: 15.0),
+                      _inputVia(context),
+                      SizedBox(height: 15.0),
+                      _inputService(context),
+                      SizedBox(height: 15.0),
+                      _inputType(context),
+                      SizedBox(height: 15.0),
+                      _inputIncoterm(context),
+                      SizedBox(height: 15.0),
+                      _inputValid(context),
+                    ],
+                  ),
+                )
+              ),
+              isActive: _currentStep == 0 ? true : false
+            ),
+            Step(
+              title: Text(''),
+              content: Column(
+                mainAxisSize: MainAxisSize.max,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  _inputCient(context),
+                  _inputContact(context),
+                  _inputProduct(context),
+                  _inputOrigin(context),
+                  _inputDestiny(context),
+                ],
+              ),
+              isActive: _currentStep == 1 ? true : false
+            ),
+            Step(
+              title: Text(''),
+              content: Container(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height - 260.0,
+              ),
+              isActive: _currentStep == 2 ? true : false
+            ),
+          ],
+        ),
+      )
     );
   }
 
@@ -43,7 +107,7 @@ class _NewPageState extends State<NewPage> {
     List<DropdownMenuItem<String>> _list = new List();
     _options.forEach((x) {
       _list.add(DropdownMenuItem(
-        child: Text(x),
+        child: Text(x, style: TextStyle(fontSize: 12)),
         value: x,
       ));
     });
@@ -54,7 +118,7 @@ class _NewPageState extends State<NewPage> {
     List<DropdownMenuItem<String>> _list = new List();
     _vias.forEach((x) {
       _list.add(DropdownMenuItem(
-        child: Text(x),
+        child: Text(x, style: TextStyle(fontSize: 12)),
         value: x,
       ));
     });
@@ -65,7 +129,7 @@ class _NewPageState extends State<NewPage> {
     List<DropdownMenuItem<String>> _list = new List();
     _services.forEach((x) {
       _list.add(DropdownMenuItem(
-        child: Text(x),
+        child: Text(x, style: TextStyle(fontSize: 12)),
         value: x,
       ));
     });
@@ -75,7 +139,8 @@ class _NewPageState extends State<NewPage> {
   Widget _inputPayment(BuildContext context) {
     return DropdownButtonHideUnderline(
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+        height: 35.0,
+        padding: EdgeInsets.only(left: 10.0, right: 5.0),
         decoration: ShapeDecoration(
           shape: RoundedRectangleBorder(
             side: BorderSide(
@@ -83,12 +148,12 @@ class _NewPageState extends State<NewPage> {
               style: BorderStyle.solid,
               color: Colors.black38
             ),
-            borderRadius: BorderRadius.all(Radius.circular(10.0)),
+            borderRadius: BorderRadius.all(Radius.circular(5.0)),
           ),
         ),
         child: DropdownButton(
           isExpanded: true,
-          icon: Icon(Icons.attach_money),
+          icon: Icon(Icons.arrow_drop_down),
           value: _paymentMethod,
           items: getOptions(),
           onChanged: (opt) {
@@ -105,7 +170,8 @@ class _NewPageState extends State<NewPage> {
   Widget _inputVia(BuildContext context) {
     return DropdownButtonHideUnderline(
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+        height: 35.0,
+        padding: EdgeInsets.only(left: 10.0, right: 5.0),
         decoration: ShapeDecoration(
           shape: RoundedRectangleBorder(
             side: BorderSide(
@@ -113,12 +179,13 @@ class _NewPageState extends State<NewPage> {
               style: BorderStyle.solid,
               color: Colors.black38
             ),
-            borderRadius: BorderRadius.all(Radius.circular(10.0)),
+            borderRadius: BorderRadius.all(Radius.circular(5.0)),
           ),
         ),
         child: DropdownButton(
           isExpanded: true,
-          icon: _via == 'Aérea' ? Icon(Icons.flight) : Icon(Icons.directions_boat),
+          //icon: _via == 'Aérea' ? Icon(Icons.flight) : Icon(Icons.directions_boat),
+          icon: Icon(Icons.arrow_drop_down),
           value: _via,
           items: getOptionsVia(),
           onChanged: (opt) {
@@ -135,7 +202,8 @@ class _NewPageState extends State<NewPage> {
   Widget _inputService(BuildContext context) {
     return DropdownButtonHideUnderline(
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+        height: 35.0,
+        padding: EdgeInsets.only(left: 10.0, right: 5.0),
         decoration: ShapeDecoration(
           shape: RoundedRectangleBorder(
             side: BorderSide(
@@ -143,12 +211,12 @@ class _NewPageState extends State<NewPage> {
               style: BorderStyle.solid,
               color: Colors.black38
             ),
-            borderRadius: BorderRadius.all(Radius.circular(10.0)),
+            borderRadius: BorderRadius.all(Radius.circular(5.0)),
           ),
         ),
         child: DropdownButton(
           isExpanded: true,
-          icon: Icon(Icons.import_export),
+          icon: Icon(Icons.arrow_drop_down),
           value: _service,
           items: getOptionsServices(),
           onChanged: (opt) {
@@ -165,7 +233,8 @@ class _NewPageState extends State<NewPage> {
   Widget _inputType(BuildContext context) {
     return DropdownButtonHideUnderline(
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+        height: 35.0,
+        padding: EdgeInsets.only(left: 10.0, right: 5.0),
         decoration: ShapeDecoration(
           shape: RoundedRectangleBorder(
             side: BorderSide(
@@ -173,12 +242,12 @@ class _NewPageState extends State<NewPage> {
               style: BorderStyle.solid,
               color: Colors.black38
             ),
-            borderRadius: BorderRadius.all(Radius.circular(10.0)),
+            borderRadius: BorderRadius.all(Radius.circular(5.0)),
           ),
         ),
         child: DropdownButton(
           isExpanded: true,
-          icon: Icon(Icons.class_),
+          icon: Icon(Icons.arrow_drop_down),
           value: _paymentMethod,
           items: getOptions(),
           onChanged: (opt) {
@@ -195,7 +264,8 @@ class _NewPageState extends State<NewPage> {
   Widget _inputIncoterm(BuildContext context) {
     return DropdownButtonHideUnderline(
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+        height: 35.0,
+        padding: EdgeInsets.only(left: 10.0, right: 5.0),
         decoration: ShapeDecoration(
           shape: RoundedRectangleBorder(
             side: BorderSide(
@@ -203,12 +273,12 @@ class _NewPageState extends State<NewPage> {
               style: BorderStyle.solid,
               color: Colors.black38
             ),
-            borderRadius: BorderRadius.all(Radius.circular(10.0)),
+            borderRadius: BorderRadius.all(Radius.circular(5.0)),
           ),
         ),
         child: DropdownButton(
           isExpanded: true,
-          icon: Icon(Icons.add_box),
+          icon: Icon(Icons.arrow_drop_down),
           value: _paymentMethod,
           items: getOptions(),
           onChanged: (opt) {
@@ -224,15 +294,15 @@ class _NewPageState extends State<NewPage> {
 
   Widget _inputValid(BuildContext context) {
     return TextField(
+      style: TextStyle(fontSize: 12.0),
       enableInteractiveSelection: false,
       controller: _validController,
       decoration: InputDecoration(
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10.0)
-        ),
+        contentPadding: EdgeInsets.all(10.0),
+        border: OutlineInputBorder(),
         labelText: 'Validez',
         hintText: 'Validez',
-        suffixIcon: Icon(Icons.calendar_today),
+        //suffixIcon: Icon(Icons.calendar_today, size: 12.0)
       ),
       onTap: () {
         FocusScope.of(context).requestFocus(new FocusNode());

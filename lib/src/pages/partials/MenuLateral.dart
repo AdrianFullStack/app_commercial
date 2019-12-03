@@ -11,11 +11,11 @@ class MenuLateral extends StatelessWidget {
             accountName: Text('Rogelio Adrián Suclupe Tello'),
             accountEmail: Text('rsuclupe@acciona.com'),
             currentAccountPicture: new CircleAvatar(
-              backgroundImage: new NetworkImage('https://i.pravatar.cc/300'),
+              backgroundImage: AssetImage('assets/images/avatar.jpg'),
             ),
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: NetworkImage("https://www.sartransport.com/wp-content/uploads/2019/10/freight-forwarder.jpg"),
+                image: AssetImage('assets/images/freight-forwarder.jpg'),
                 fit: BoxFit.cover
               )
             ),
