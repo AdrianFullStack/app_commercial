@@ -13,6 +13,7 @@ class _NewPageState extends State<NewPage> {
   int _currentStep = 0;
 
   TextEditingController _validController = new TextEditingController();
+  VoidCallback _onStepContinue, _onStepCancel;
 
   @override
   Widget build(BuildContext context) {
@@ -31,83 +32,204 @@ class _NewPageState extends State<NewPage> {
         ]
       ),
       body: Container(
-        alignment: Alignment(0.0, 0.0),
-        child: Stepper(
-          type: StepperType.horizontal,
-          currentStep: _currentStep,
-          //onStepTapped: (int step) => setState(() => _currentStep = step),
-          onStepCancel: () => setState(() => _currentStep > 0 ? _currentStep-- : _currentStep),
-          onStepContinue: () => setState(() => _currentStep < 2 ? _currentStep++ : _currentStep),
-          controlsBuilder: (BuildContext context, {VoidCallback onStepContinue, VoidCallback onStepCancel}) {
-            return Row(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      buttonNext(onStepContinue),
-                      buttonBack(onStepCancel),                      
-                    ]);
-          },
-          steps: <Step> [
-            Step(
-              title: Text(''),
-              content: Container(
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height - 260.0,
-                child: SingleChildScrollView(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.max,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: <Widget>[
-                      Row(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Expanded(
-                            child: _inputPayment(context),
-                          ),
-                          SizedBox(width: 10),
-                          Expanded(
-                            child: _inputVia(context),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 15.0),
-                      _inputService(context),
-                      SizedBox(height: 15.0),
-                      _inputType(context),
-                      SizedBox(height: 15.0),
-                      _inputIncoterm(context),
-                      SizedBox(height: 15.0),
-                      _inputValid(context),
-                    ],
+        width: MediaQuery.of(context).size.width,
+        height: double.maxFinite,
+        child: Stack(
+          children: <Widget>[
+            Positioned(
+              child: Stepper(
+                type: StepperType.horizontal,
+                currentStep: _currentStep,
+                onStepCancel: () => setState(() => _currentStep > 0 ? _currentStep-- : _currentStep),
+                onStepContinue: () => setState(() => _currentStep < 2 ? _currentStep++ : _currentStep),
+                controlsBuilder: (BuildContext context, { VoidCallback onStepContinue, VoidCallback onStepCancel }) {
+                  _onStepCancel = onStepCancel;
+                  _onStepContinue = onStepContinue;
+                  return SizedBox.shrink();
+                },
+                steps: <Step> [
+                  Step(
+                    
+                    title: Text(''),
+                    content: Container(
+                      width: MediaQuery.of(context).size.width,
+                      //height: MediaQuery.of(context).size.height - 260.0,
+                      child: Column(
+                          mainAxisSize: MainAxisSize.max,
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: <Widget>[
+                            Row(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Expanded(
+                                  child: _inputPayment(context),
+                                ),
+                                SizedBox(width: 10),
+                                Expanded(
+                                  child: _inputVia(context),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 10.0),
+                            Row(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Expanded(
+                                  child: _inputService(context),
+                                ),
+                                SizedBox(width: 10),
+                                Expanded(
+                                  child: _inputType(context),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 10.0),
+                            Row(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Expanded(
+                                  child: _inputIncoterm(context),
+                                ),
+                                SizedBox(width: 10),
+                                Expanded(
+                                  child: _inputValid(context),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 10.0),
+                            _inputIncoterm(context),
+                            SizedBox(height: 10.0),
+                            _inputIncoterm(context),
+                            SizedBox(height: 10.0),
+                            _inputIncoterm(context),
+                            SizedBox(height: 10.0),
+                            _inputIncoterm(context),
+                            SizedBox(height: 10.0),
+                            Row(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Expanded(
+                                  child: _inputIncoterm(context),
+                                ),
+                                SizedBox(width: 10),
+                                Expanded(
+                                  child: _inputValid(context),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                    ),
+                    isActive: _currentStep == 0 ? true : false
                   ),
-                )
-              ),
-              isActive: _currentStep == 0 ? true : false
-            ),
-            Step(
-              title: Text(''),
-              content: Column(
-                mainAxisSize: MainAxisSize.max,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  _inputCient(context),
-                  _inputContact(context),
-                  _inputProduct(context),
-                  _inputOrigin(context),
-                  _inputDestiny(context),
+                  Step(
+                    title: Text(''),
+                    content: Column(
+                      mainAxisSize: MainAxisSize.max,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: <Widget>[
+                        _inputCient(context),
+                        _inputContact(context),
+                        _inputProduct(context),
+                        _inputOrigin(context),
+                        _inputDestiny(context),
+                      ],
+                    ),
+                    isActive: _currentStep == 1 ? true : false
+                  ),
+                  Step(
+                    title: Text(''),
+                    content: Container(
+                      width: MediaQuery.of(context).size.width,
+                      //height: MediaQuery.of(context).size.height - 260.0,
+                    ),
+                    isActive: _currentStep == 2 ? true : false
+                  ),
                 ],
               ),
-              isActive: _currentStep == 1 ? true : false
             ),
-            Step(
-              title: Text(''),
-              content: Container(
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height - 260.0,
+            Align(
+              alignment: FractionalOffset.bottomCenter,
+              child: Container(
+                padding: EdgeInsets.all(10.0),
+                margin: EdgeInsets.only(bottom: 15.0),
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    buttonNext(_onStepContinue),
+                    buttonBack(_onStepCancel),                      
+                ]),
               ),
-              isActive: _currentStep == 2 ? true : false
             ),
+            Align(
+              alignment: FractionalOffset.bottomCenter,
+              child: SingleChildScrollView(
+                  padding: EdgeInsets.all(0.0),
+                  scrollDirection: Axis.horizontal,
+                  child: Container(
+                    padding: EdgeInsets.all(5.0),
+                    color: Colors.black45,
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Text('Profit: ', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                        Text('1000', style: TextStyle(color: Colors.white)),
+                        SizedBox(width: 10),
+                        Text('Kg: ', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                        Text('1000', style: TextStyle(color: Colors.white)),
+                        SizedBox(width: 10),
+                        Text('Kg/Vol: ', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                        Text('1000', style: TextStyle(color: Colors.white)),
+                        SizedBox(width: 10),
+                        Text('CBM: ', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                        Text('1000', style: TextStyle(color: Colors.white)),
+                        SizedBox(width: 10),
+                        Text('TON: ', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                        Text('1000', style: TextStyle(color: Colors.white)),
+                      ],
+                    ),
+                  )
+                ),
+            ),
+            /*Positioned(
+              child: Align(
+                alignment: FractionalOffset.bottomCenter,
+                child: SingleChildScrollView(
+                  padding: EdgeInsets.all(0.0),
+                  scrollDirection: Axis.horizontal,
+                  child: Container(
+                    padding: EdgeInsets.all(5.0),
+                    color: Colors.red,
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Text('Profit: ', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                        Text('1000', style: TextStyle(color: Colors.white)),
+                        SizedBox(width: 10),
+                        Text('Kg: ', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                        Text('1000', style: TextStyle(color: Colors.white)),
+                        SizedBox(width: 10),
+                        Text('Kg/Vol: ', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                        Text('1000', style: TextStyle(color: Colors.white)),
+                        SizedBox(width: 10),
+                        Text('CBM: ', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                        Text('1000', style: TextStyle(color: Colors.white)),
+                        SizedBox(width: 10),
+                        Text('TON: ', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                        Text('1000', style: TextStyle(color: Colors.white)),
+                      ],
+                    ),
+                  )
+                ),
+              )
+            )*/
           ],
         ),
       )
