@@ -38,6 +38,15 @@ class _NewPageState extends State<NewPage> {
           //onStepTapped: (int step) => setState(() => _currentStep = step),
           onStepCancel: () => setState(() => _currentStep > 0 ? _currentStep-- : _currentStep),
           onStepContinue: () => setState(() => _currentStep < 2 ? _currentStep++ : _currentStep),
+          controlsBuilder: (BuildContext context, {VoidCallback onStepContinue, VoidCallback onStepCancel}) {
+            return Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      buttonNext(onStepContinue),
+                      buttonBack(onStepCancel),                      
+                    ]);
+          },
           steps: <Step> [
             Step(
               title: Text(''),
@@ -49,9 +58,19 @@ class _NewPageState extends State<NewPage> {
                     mainAxisSize: MainAxisSize.max,
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
-                      _inputPayment(context),
-                      SizedBox(height: 15.0),
-                      _inputVia(context),
+                      Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Expanded(
+                            child: _inputPayment(context),
+                          ),
+                          SizedBox(width: 10),
+                          Expanded(
+                            child: _inputVia(context),
+                          ),
+                        ],
+                      ),
                       SizedBox(height: 15.0),
                       _inputService(context),
                       SizedBox(height: 15.0),
@@ -94,6 +113,47 @@ class _NewPageState extends State<NewPage> {
       )
     );
   }
+
+  Widget buttonNext(VoidCallback onStepContinue) {
+    switch (_currentStep) {
+      case 0:
+        return Expanded(
+          child: FlatButton(
+            color: Colors.red,
+            child: Text('Siguiente', style: TextStyle(color: Colors.white)),
+            onPressed: onStepContinue,
+          )
+        );
+        break;
+      case 2:
+        return FlatButton(
+          color: Colors.red,
+          child: Text('Guardar', style: TextStyle(color: Colors.white)),
+          onPressed: () => print('Save data')
+        );
+        break;
+      default:
+        return FlatButton(
+          color: Colors.red,
+          child: Text('Siguiente', style: TextStyle(color: Colors.white)),
+          onPressed: onStepContinue,
+        );
+    }
+  }
+
+  Widget buttonBack(VoidCallback onStepCancel) {
+    if (_currentStep > 0) {
+      return FlatButton(
+        color: Colors.grey,
+        child: Text('Atrás', style: TextStyle(color: Colors.white)),
+        onPressed: onStepCancel,
+      );
+    } else {
+      return SizedBox();
+    }
+  }
+
+
 
   List<String> _options = ['Contado', 'Crédito'];
   List<String> _vias = ['Aérea', 'Marítima'];
