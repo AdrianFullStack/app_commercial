@@ -49,7 +49,6 @@ class _NewPageState extends State<NewPage> {
                 },
                 steps: <Step> [
                   Step(
-                    
                     title: Text(''),
                     content: Container(
                       width: MediaQuery.of(context).size.width,
@@ -482,8 +481,8 @@ class _NewPageState extends State<NewPage> {
       decoration: InputDecoration(
         contentPadding: EdgeInsets.all(10.0),
         border: OutlineInputBorder(),
-        labelText: 'Validez',
-        hintText: 'Validez',
+        //labelText: 'Validez',
+        hintText: 'dd/mm/yyyy',
         //suffixIcon: Icon(Icons.calendar_today, size: 12.0)
       ),
       onTap: () {
